@@ -1,0 +1,20 @@
+{
+	"description": "This is my base template for creating Debain Virtualboxes.",
+	"builders": [{
+		"type": "virtualbox-iso",
+		"guest_os_type": "Debian_64",
+		"iso_url": "http://cdimage.debian.org/debian-cd/8.2.0/amd64/iso-dvd/debian-8.2.0-amd64-DVD-1.iso",
+		"iso_checksum": "d70685dec63ad07499e046a77237dabd8949f0ba0fa047c358e7d66a691576cd",
+		"iso_checksum_type": "sha256",
+		"ssh_username": "vagrant",
+		"ssh_password": "vagrant",
+		"ssh_wait_timeout": "120m",
+		"shutdown_command": "echo 'shutting down' | sudo -S shutdown -P now",
+		"disk_size": "20480",
+		"http_directory": "http",
+		"boot_command": [
+			"<esc><wait>",
+			"auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"
+		]
+	}]	
+}
