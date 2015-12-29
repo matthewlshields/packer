@@ -1,4 +1,13 @@
 {
+	"push": {
+		"name": "debian-base",
+		"vcs": true
+	},
+	"variables": {
+		"atlas_username": "{{env `ATLAS_USERNAME`}}",
+		"atlas_name": "debian-base",
+		"atlas_token": "{{env `ATLAS_TOKEN`}}"
+	},
 	"provisioners": [{
 		"type": "shell",
 		"scripts": [
@@ -32,5 +41,22 @@
     		["modifyvm", "{{.Name}}", "--cpus", "2"]
     	]
 	}],
-	"post-processors": ["vagrant"]
+	"post-processors": [
+        [{
+            "type": "vagrant",
+            "keep_input_artifact": false
+        },
+        {
+            "type": "atlas",
+            "token": "{{user `atlas_token`}}",
+            "only": ["virtualbox-iso"],
+            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "provider": "virtualbox",
+                "version": "0.0.1",
+                "created_at": "{{timestamp}}"
+            }
+        }]
+    ]
 }
