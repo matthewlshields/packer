@@ -1,11 +1,11 @@
 {
 	"push": {
-		"name": "debian-base",
+		"name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
 		"vcs": true
 	},
 	"variables": {
 		"atlas_username": "{{env `ATLAS_USERNAME`}}",
-		"atlas_name": "debian-base",
+		"atlas_name": "{{env `ATLAS_NAME`}}",
 		"atlas_token": "{{env `ATLAS_TOKEN`}}"
 	},
 	"provisioners": [{
@@ -28,6 +28,7 @@
 		"ssh_username": "vagrant",
 		"ssh_password": "vagrant",
 		"ssh_wait_timeout": "120m",
+		"ssh_port": 22,
 		"shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
 		"disk_size": "20480",
 		"http_directory": "http",
@@ -39,7 +40,8 @@
 		"vboxmanage": [
     		["modifyvm", "{{.Name}}", "--memory", "4096"],
     		["modifyvm", "{{.Name}}", "--cpus", "2"]
-    	]
+    	],
+    	"headless": true
 	}],
 	"post-processors": [
         [{
