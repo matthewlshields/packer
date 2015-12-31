@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vagrant
+
 # Update the box
 apt-get -y update >/dev/null
 apt-get -y install facter curl rsync
