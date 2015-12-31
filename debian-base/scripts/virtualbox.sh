@@ -1,4 +1,6 @@
-#!/bin/bash -v
+#!/bin/bash
+
+set -x
 
 # Bail if we are not running inside VirtualBox.
 if [[ `facter virtual` != "virtualbox" ]]; then
