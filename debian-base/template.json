@@ -11,6 +11,8 @@
 	"provisioners": [{
 		"type": "shell",
 		"scripts": [
+			"scripts/base.sh",
+			"scripts/virtualbox.sh",
 			"scripts/vagrant.sh"
 		],
 		"override": {
