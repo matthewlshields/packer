@@ -1,9 +1,7 @@
 #!/bin/bash
 
-set -x
-
 # Bail if we are not running inside VirtualBox.
-if [[ `facter virtual` != "virtualbox" ]]; then
+if [[ $(facter virtual) != "virtualbox" ]]; then
     exit 0
 fi
 
