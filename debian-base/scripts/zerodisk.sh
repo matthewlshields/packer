@@ -1,6 +1,11 @@
 #!/bin/bash
-
+set +e
 # Zero out the free space to save space in the final image:
-dd if=/dev/zero of=/EMPTY bs=1M || :
-rm -f /EMPTY || :
-exit 0
+dd if=/dev/zero of=/EMPTY bs=1M || true
+rm -f /EMPTY || true
+
+sync
+sync
+sync
+
+set -e
