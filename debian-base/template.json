@@ -26,12 +26,12 @@
 	"builders": [{
 		"type": "virtualbox-iso",
 		"guest_os_type": "Debian_64",
-		"iso_url": "http://cdimage.debian.org/debian-cd/8.2.0/amd64/iso-cd/debian-8.2.0-amd64-CD-1.iso",
-		"iso_checksum": "234bd43d85974299d501f370ac3e7592b98832d98f82be3aff190ff3af831f8cd7574a75f4c9b36c347f138e82ccb40ff3746a4c94e7d59e4ee711e0c96dbf1d",
+		"iso_url": "http://cdimage.debian.org/debian-cd/8.2.0/amd64/iso-cd/debian-8.2.0-amd64-xfce-CD-1.iso",
+		"iso_checksum": "7a3e1d66f64546ed043664f32eb7f6ff2cb3a96cc24e5ebdc0fd8d544935c9450031bdd9f769c6ec6f77645aaa731dc1c41460da67af56b39344b6557d476fc5",
 		"iso_checksum_type": "sha512",
 		"ssh_username": "vagrant",
 		"ssh_password": "vagrant",
-		"ssh_wait_timeout": "120m",
+		"ssh_wait_timeout": "180m",
 		"ssh_port": 22,
 		"shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
 		"disk_size": "20480",
@@ -43,9 +43,10 @@
 		],
 		"vboxmanage": [
     		["modifyvm", "{{.Name}}", "--memory", "4096"],
-    		["modifyvm", "{{.Name}}", "--cpus", "2"]
+    		["modifyvm", "{{.Name}}", "--cpus", "2"],
+    		["modifyvm", "{{.Name}}", "--vram", "32"]
     	],
-    	"headless": false
+    	"headless": true
 	}],
 	"post-processors": [
         [{
@@ -60,7 +61,7 @@
             "artifact_type": "vagrant.box",
             "metadata": {
                 "provider": "virtualbox",
-                "version": "0.0.13",
+                "version": "0.0.14",
                 "created_at": "{{timestamp}}"
             }
         }]
