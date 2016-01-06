@@ -7,5 +7,6 @@ echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vagrant
 grep -v "cdrom" /etc/apt/sources.list > templist && mv templist /etc/apt/sources.list
 
 # Update the box
-apt-get -y update >/dev/null
+apt-get update > /dev/null
+apt-get -y upgrade
 apt-get -y install facter curl rsync
