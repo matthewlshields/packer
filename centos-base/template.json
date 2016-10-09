@@ -1,0 +1,61 @@
+{
+	"push": {
+		"name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+		"vcs": true
+	},
+	"variables": {
+		"atlas_username": "{{env `ATLAS_USERNAME`}}",
+		"atlas_name": "{{env `ATLAS_NAME`}}",
+		"atlas_token": "{{env `ATLAS_TOKEN`}}"
+	},
+	"provisioners": [{
+		"type": "shell",
+		"scripts": [
+			"scripts/base.sh",
+			"scripts/virtualbox.sh",
+			"scripts/vagrant.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+		],
+		"override": {
+			"virtualbox-iso": {
+				"execute_command": "echo 'vagrant' | sudo -S bash '{{.Path}}'"
+			}
+		}
+	}],
+	"builders": [{
+		"type": "virtualbox-iso",
+		"guest_os_type": "RedHat_64",
+		"iso_url": "http://mirror.cs.pitt.edu/centos/7.2.1511/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+		"iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+		"iso_checksum_type": "sha256",
+		"ssh_username": "vagrant",
+		"ssh_password": "vagrant",
+		"ssh_wait_timeout": "180m",
+		"ssh_port": 22,
+		"vm_name": "centos-72-x64",
+		"shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+		"disk_size": "10240",
+		"http_directory": "http",
+		"boot_command": [
+			"<esc><wait>",
+			"linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
+			"<enter><wait>"
+		],
+		"vboxmanage": [
+    		["modifyvm", "{{.Name}}", "--memory", "4096"],
+    		["modifyvm", "{{.Name}}", "--cpus", "2"],
+    		["modifyvm", "{{.Name}}", "--usb", "off"],
+            ["modifyvm", "{{.Name}}", "--audio", "none"]
+    	],
+    	"headless": true
+	}],
+	"post-processors": [
+        [{
+            "type": "vagrant",
+            "keep_input_artifact": false,
+            "type": "vagrant",
+        	"output": "./centos-72-x64-{{.Provider}}-minimal.box"
+        }]
+    ]
+}
