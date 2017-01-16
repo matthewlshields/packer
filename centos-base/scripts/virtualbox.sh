@@ -5,12 +5,13 @@ if [[ $(facter productname) != "VirtualBox" ]]; then
     exit 0
 fi
 
-yum install -y kernel-headers kernel-devel
-#yum clean all
+yum install -y dkms
+
+KERN_DIR=/usr/src/kernels/`uname -r`
+export KERN_DIR
 
 mkdir -p /mnt/virtualbox
 mount -o loop /home/vagrant/VBoxGuest*.iso /mnt/virtualbox
 sh /mnt/virtualbox/VBoxLinuxAdditions.run
-#ln -s /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
 umount /mnt/virtualbox
 rm -rf /home/vagrant/VBoxGuest*.iso
